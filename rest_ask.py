@@ -4,20 +4,44 @@ test_endpoint = 'http://localhost:5000/test'
 camunda_endpoint = 'http://localhost:8080/engine-rest/message'
 ENDPOINT = test_endpoint
 
+camunda_ask = {
+    "messageName": "",
+    "processVariables": {}
+}
+
+
 def ask1():
-    path = ''
+    ask1_content = camunda_ask.copy()
+
     ask1_dict = {
-        'user_email': 'gino.paoli@hotmail.com',
-        'item': 'Risk',
-        'address': 'via Golgi, 40, Milano'
+        "user_email": {
+            "value": "gino.paoli@hotmail.com",
+            "type": "String"
+        },
+        "item": {
+            "value": "Risk",
+            "type": "String"
+        },
+        "address": {
+            "value": "via Golgi, 40, Milano",
+            "type": "String"
+        }
     }
-    send_post(ask1_dict, path)
+
+    ask1_content["messageName"] = "ask1"
+    ask1_content["processVariables"] = ask1_dict
+
+    path = ''
+
+    send_post(ask1_content, path)
 
 
 # send messages
 def send_post(json_content, path):
     try:
-        res = requests.post(ENDPOINT + path, json=json_content)
+        url = ENDPOINT if ENDPOINT == test_endpoint else ENDPOINT + path
+
+        res = requests.post(url, json=json_content)
         print('response from server:', res.text)
         # dictFromServer = res.json()
     except Exception as e:
