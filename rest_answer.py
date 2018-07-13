@@ -1,28 +1,15 @@
 from flask import Flask, request, jsonify
-import requests
 import random
 
-self_endpoint = 'http://127.0.0.1:5000/'
-camunda_endpoint = 'http://localhost:8080/engine-rest/message'
+
 app = Flask(__name__)
-
-
-# send messages
-def send_post():
-    dictToSend = {
-        'user_email': 'gino.paoli@hotmail.com',
-        'item': 'Risk',
-        'address': 'via Golgi, 40, Milano'
-    }
-    res = requests.post(self_endpoint+"/test", json=dictToSend)
-    print('response from server:', res.text)
-    dictFromServer = res.json()
 
 
 # API
 @app.route('/supplier/item/<int:id>', methods=['GET', 'POST'])
 def supplier_item(id):
     code = random.uniform(0, 1)
+
     if code < 0.8:
         return "available!"
     elif code >= 0.8 or code < 0.9:
@@ -44,4 +31,3 @@ def add_message():
 
 if __name__ == '__main__':
     app.run(debug=True)
-    send_post()
