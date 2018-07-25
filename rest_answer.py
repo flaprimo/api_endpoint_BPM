@@ -1,32 +1,26 @@
-from flask import Flask, request, jsonify
-import random
+from flask import Flask
+import time
 
 
 app = Flask(__name__)
 
+DELIVER = True
+
 
 # API
-@app.route('/supplier/item/<int:id>', methods=['GET', 'POST'])
-def supplier_item(id):
-    code = random.uniform(0, 1)
-
-    if code < 0.8:
-        return "available!"
-    elif code >= 0.8 or code < 0.9:
-        return "delay!"
+@app.route('/supplier/game/<string:game>', methods=['GET', 'POST'])
+def supplier_item(game):
+    if DELIVER:
+        return game, 200
     else:
-        return "unavailable!"
+        time.sleep(10)
 
 
-@app.route('/package_delivery/order/<int:id>', methods=['GET', 'POST'])
-def package_delivery_order(id):
-    return 1
-
-
-@app.route('/test', methods=['POST'])
+@app.route('/test', methods=['GET', 'POST'])
 def add_message():
-    content = request.get_json(silent=True)
-    return jsonify(content)
+    # content = request.get_json(silent=True)
+    # return jsonify(content)
+    return "yay!"
 
 
 if __name__ == '__main__':
