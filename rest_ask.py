@@ -7,7 +7,7 @@ ENDPOINT = camunda_endpoint
 
 NAME = "Gino Paoli"
 EMAIL = "gino.paoli@hotmail.com"
-GAME = "Riskdassda"
+GAME = "Risk"
 ADDRESS = "via Golgi, 40, Milano"
 
 

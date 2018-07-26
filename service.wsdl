@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<definitions
+        xmlns="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+        xmlns:tns="http://test.python-zeep.org/tns/"
+        targetNamespace="http://test.python-zeep.org/tns/">
+
+    <message name="getGameProviderRequest">
+        <part name="gameName" type="xsd:string"/>
+    </message>
+
+    <message name="getGameProviderResponse">
+        <part name="gameProvider" type="xsd:string"/>
+    </message>
+
+    <portType name="gameProvider">
+        <operation name="getGameProvider">
+            <input message="tns:getGameProviderRequest"/>
+            <output message="tns:getGameProviderResponse"/>
+        </operation>
+    </portType>
+
+    <binding name="binding1" type="gameProvider">
+        <http:binding verb="GET"/>
+        <operation name="getGameProvider">
+            <http:operation location="/getGameProvider/(gameName)/"/>
+            <input>
+                <http:urlReplacement/>
+            </input>
+            <output>
+                <mime:content type="text/plain"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="GameProviderService">
+        <port name="Port1" binding="tns:binding1">
+            <http:address location="http://localhost:9000/gameproviderservice"/>
+        </port>
+    </service>
+</definitions>
